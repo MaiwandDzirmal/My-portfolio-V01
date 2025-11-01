@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport"
+            content="width=device-width, initial-scale=1.0">
+        <title>🌈 Skills - Maiwand</title>
+        <link rel="icon" href="favicon.svg" type="image/svg+xml">
+        <link rel="stylesheet" href="css/homepage.css" id="current-theme">
+    </head>
+
+    <body>
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="nav-logo">
+                    <a href="homepage.html">Maiwand</a>
+                </div>
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a href="homepage.html" class="nav-link">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="about.html" class="nav-link">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="projects.html"
+                            class="nav-link">Projects</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="skills.html" class="nav-link">Skills</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="contact.html" class="nav-link">Contact</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="settings.html" class="nav-link">⚙️
+                            Settings</a>
+                    </li>
+                </ul>
+                <div class="hamburger">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+            </div>
+        </nav>
+
+        <div class="container">
+            <header class="hero">
+                <h1 class="greeting">My Skills</h1>
+                <p class="subtitle">Technologies and tools I work with</p>
+            </header>
+
+            <main class="content">
+                <section class="welcome-section">
+                    <h2>My Skills</h2>
+                    <div class="skills-grid">
+                        <div class="skill-item">
+                            <h3>⚽ Soccer</h3>
+                            <p>Passionate about soccer with experience in
+                                playing and understanding the game. Love
+                                the strategy, teamwork, and athleticism
+                                involved.</p>
+                        </div>
+                        <div class="skill-item">
+                            <h3>💻 Coding</h3>
+                            <p>Learning programming and web development.
+                                Working with HTML and CSS to build websites
+                                and exploring new technologies.</p>
+                        </div>
+                        <div class="skill-item">
+                            <h3>⌨️ Typing</h3>
+                            <p>Fast and accurate typing skills. Able to
+                                type efficiently and maintain good speed
+                                while ensuring accuracy.</p>
+                        </div>
+                        <div class="skill-item">
+                            <h3>🔢 Math</h3>
+                            <p>Strong mathematical skills and
+                                problem-solving abilities. Good at
+                                calculations, algebra, and logical
+                                thinking.</p>
+                        </div>
+                    </div>
+                </section>
+            </main>
+
+            <footer class="footer">
+                <p>&copy; 2025 Maiwand. Made with ❤️</p>
+            </footer>
+        </div>
+
+        <script>
+            // Theme switching functionality
+            function loadTheme() {
+                const savedTheme = localStorage.getItem('theme') || 'kid';
+                const themeLink = document.getElementById('current-theme');
+
+                // All themes now use theme files
+                themeLink.href = `css/${savedTheme}-theme.css`;
+            }
+
+            function applyTheme(theme) {
+                const themeLink = document.getElementById('current-theme');
+
+                // All themes now use theme files
+                themeLink.href = `css/${theme}-theme.css`;
+            }
+
+            // Load theme on page load
+            window.onload = function () {
+                loadTheme();
+            };
+
+            // Listen for theme changes from other tabs
+            if (typeof BroadcastChannel !== 'undefined') {
+                const channel = new BroadcastChannel('theme-change');
+                channel.addEventListener('message', function (event) {
+                    applyTheme(event.data.theme);
+                });
+            }
+
+            // Listen for localStorage changes (fallback for older browsers)
+            window.addEventListener('storage', function (event) {
+                if (event.key === 'theme-change-trigger') {
+                    const savedTheme = localStorage.getItem('theme') || 'kid';
+                    applyTheme(savedTheme);
+                }
+            });
+        </script>
+    </body>
+
+</html>

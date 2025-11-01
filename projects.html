@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport"
+            content="width=device-width, initial-scale=1.0">
+        <title>🌈 Projects - Maiwand</title>
+        <link rel="icon" href="favicon.svg" type="image/svg+xml">
+        <link rel="stylesheet" href="css/homepage.css" id="current-theme">
+    </head>
+
+    <body>
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="nav-logo">
+                    <a href="homepage.html">Maiwand</a>
+                </div>
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a href="homepage.html" class="nav-link">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="about.html" class="nav-link">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="projects.html"
+                            class="nav-link">Projects</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="skills.html" class="nav-link">Skills</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="contact.html" class="nav-link">Contact</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="settings.html" class="nav-link">⚙️
+                            Settings</a>
+                    </li>
+                </ul>
+                <div class="hamburger">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+            </div>
+        </nav>
+
+        <div class="container">
+            <header class="hero">
+                <h1 class="greeting">My Projects</h1>
+                <p class="subtitle">Here are some of my recent works</p>
+            </header>
+
+            <main class="content">
+                <section class="welcome-section">
+                    <h2>My Projects</h2>
+                    <div class="skills-grid" style="margin-top: 30px;">
+                        <div class="skill-item"
+                            style="grid-column: 1 / -1;">
+                            <h3>🌐 Portfolio Website</h3>
+                            <p style="margin-bottom: 15px;">
+                                This is my first project - my personal
+                                portfolio website! I built this website to
+                                showcase who I am, my skills, my projects,
+                                and how to get in touch with me.
+                            </p>
+                            <p style="margin-bottom: 15px;">
+                                <strong>Project Details:</strong>
+                            </p>
+                            <ul
+                                style="text-align: left; padding-left: 20px; margin-top: 10px;">
+                                <li style="margin-bottom: 8px;">Built with
+                                    HTML and CSS to create a beautiful,
+                                    responsive website</li>
+                                <li style="margin-bottom: 8px;">Features
+                                    multiple pages including Home, About
+                                    Me, Projects, Skills, and Contact</li>
+                                <li style="margin-bottom: 8px;">Implemented
+                                    a theme switcher with different color
+                                    themes (Kid Theme, Purple Theme, Black
+                                    Theme)</li>
+                                <li style="margin-bottom: 8px;">Created a
+                                    user-friendly navigation system with a
+                                    mobile-responsive hamburger menu</li>
+                                <li style="margin-bottom: 8px;">Designed
+                                    with modern UI/UX principles including
+                                    animations and smooth transitions</li>
+                            </ul>
+                            <p
+                                style="margin-top: 15px; font-style: italic; color: #667eea;">
+                                This portfolio website was a great learning
+                                experience where I got to practice HTML,
+                                CSS, and JavaScript while creating
+                                something that represents me!
+                            </p>
+                            <p
+                                style="margin-top: 10px; font-weight: 600; color: #764ba2;">
+                                Status: ✅ Completed!
+                            </p>
+                        </div>
+                        <div class="skill-item"
+                            style="grid-column: 1 / -1;">
+                            <h3>⌨️ Typing Club Project</h3>
+                            <p style="margin-bottom: 15px;">
+                                I'm currently working on a typing club
+                                project with my dad! This is an exciting
+                                collaboration where we're building
+                                something together that combines our coding
+                                skills.
+                            </p>
+                            <p style="margin-bottom: 15px;">
+                                <strong>Project Details:</strong>
+                            </p>
+                            <ul
+                                style="text-align: left; padding-left: 20px; margin-top: 10px;">
+                                <li style="margin-bottom: 8px;">We're
+                                    creating a fun and interactive typing
+                                    practice platform</li>
+                                <li style="margin-bottom: 8px;">Learning
+                                    web development together - using HTML,
+                                    CSS, and JavaScript</li>
+                                <li style="margin-bottom: 8px;">Building
+                                    features to help improve typing speed
+                                    and accuracy</li>
+                                <li style="margin-bottom: 8px;">Working on
+                                    user-friendly design and smooth user
+                                    experience</li>
+                                <li style="margin-bottom: 8px;">Planning to
+                                    add games and challenges to make typing
+                                    practice fun</li>
+                            </ul>
+                            <p
+                                style="margin-top: 15px; font-style: italic; color: #667eea;">
+                                This project is a great way for me to
+                                practice my coding skills while spending
+                                quality time working alongside my dad.
+                                We're making great progress and learning
+                                new things every day!
+                            </p>
+                            <p
+                                style="margin-top: 10px; font-weight: 600; color: #764ba2;">
+                                Status: 🚧 In Progress - Coming Soon!
+                            </p>
+                        </div>
+                    </div>
+                </section>
+            </main>
+
+            <footer class="footer">
+                <p>&copy; 2025 Maiwand. Made with ❤️</p>
+            </footer>
+        </div>
+
+        <script>
+            // Theme switching functionality
+            function loadTheme() {
+                const savedTheme = localStorage.getItem('theme') || 'kid';
+                const themeLink = document.getElementById('current-theme');
+
+                // All themes now use theme files
+                themeLink.href = `css/${savedTheme}-theme.css`;
+            }
+
+            function applyTheme(theme) {
+                const themeLink = document.getElementById('current-theme');
+
+                // All themes now use theme files
+                themeLink.href = `css/${theme}-theme.css`;
+            }
+
+            // Load theme on page load
+            window.onload = function () {
+                loadTheme();
+            };
+
+            // Listen for theme changes from other tabs
+            if (typeof BroadcastChannel !== 'undefined') {
+                const channel = new BroadcastChannel('theme-change');
+                channel.addEventListener('message', function (event) {
+                    applyTheme(event.data.theme);
+                });
+            }
+
+            // Listen for localStorage changes (fallback for older browsers)
+            window.addEventListener('storage', function (event) {
+                if (event.key === 'theme-change-trigger') {
+                    const savedTheme = localStorage.getItem('theme') || 'kid';
+                    applyTheme(savedTheme);
+                }
+            });
+        </script>
+    </body>
+
+</html>

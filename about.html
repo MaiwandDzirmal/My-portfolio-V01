@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport"
+            content="width=device-width, initial-scale=1.0">
+        <title>About Me - Maiwand</title>
+        <link rel="icon" href="favicon.svg" type="image/svg+xml">
+        <link rel="stylesheet" href="css/homepage.css" id="current-theme">
+    </head>
+
+    <body>
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="nav-logo">
+                    <a href="homepage.html">Maiwand</a>
+                </div>
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a href="homepage.html" class="nav-link">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="about.html" class="nav-link">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="projects.html"
+                            class="nav-link">Projects</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="skills.html" class="nav-link">Skills</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="contact.html" class="nav-link">Contact</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="settings.html" class="nav-link">⚙️
+                            Settings</a>
+                    </li>
+                </ul>
+                <div class="hamburger">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+            </div>
+        </nav>
+
+        <div class="container">
+            <header class="hero">
+                <h1 class="greeting">About Me</h1>
+                <p class="subtitle">Get to know me better</p>
+            </header>
+
+            <main class="content">
+                <section class="welcome-section">
+                    <h2>Hi, I'm Maiwand Dzirmal!</h2>
+                    <p>I'm a 6th grade student who loves two things: soccer
+                        and coding!</p>
+
+                    <div class="skills-grid" style="margin-top: 30px;">
+                        <div class="skill-item">
+                            <h3>⚽ Soccer Player</h3>
+                            <p>I'm a great soccer player! I play on
+                                Tuesdays and Fridays with my team Juventus.
+                                I love the game and enjoy practicing with
+                                my teammates.</p>
+                        </div>
+                        <div class="skill-item">
+                            <h3>💻 Coder</h3>
+                            <p>I'm good at coding and I'm always learning
+                                new programming skills. Building websites
+                                and creating cool projects is something I
+                                really enjoy!</p>
+                        </div>
+                        <div class="skill-item">
+                            <h3>🎓 6th Grade Student</h3>
+                            <p>I'm currently in 6th grade, balancing my
+                                school work with my passion for soccer and
+                                coding. I'm always eager to learn new
+                                things!</p>
+                        </div>
+                        <div class="skill-item">
+                            <h3>⚫ Favorite Color</h3>
+                            <p>My favorite color is black! I love how sleek
+                                and stylish it looks.</p>
+                        </div>
+                    </div>
+
+                    <h2 style="margin-top: 40px; margin-bottom: 20px;">My
+                        Soccer Team</h2>
+                    <p style="margin-bottom: 20px;">I play for
+                        <strong>Juventus</strong> and I have amazing
+                        teammates:
+                    </p>
+                    <ul
+                        style="list-style: none; padding: 0; max-width: 600px; margin: 0 auto 30px;">
+                        <li
+                            style="padding: 10px; margin: 5px 0; background: rgba(102, 126, 234, 0.1); border-radius: 8px;">
+                            ⚽ Kenji</li>
+                        <li
+                            style="padding: 10px; margin: 5px 0; background: rgba(102, 126, 234, 0.1); border-radius: 8px;">
+                            ⚽ Omar</li>
+                        <li
+                            style="padding: 10px; margin: 5px 0; background: rgba(102, 126, 234, 0.1); border-radius: 8px;">
+                            ⚽ Abdullah</li>
+                        <li
+                            style="padding: 10px; margin: 5px 0; background: rgba(102, 126, 234, 0.1); border-radius: 8px;">
+                            ⚽ Ben</li>
+                        <li
+                            style="padding: 10px; margin: 5px 0; background: rgba(102, 126, 234, 0.1); border-radius: 8px;">
+                            ⚽ Gjase</li>
+                        <li
+                            style="padding: 10px; margin: 5px 0; background: rgba(102, 126, 234, 0.1); border-radius: 8px;">
+                            ⚽ Hamza</li>
+                    </ul>
+                    <p>We practice together on <strong>Tuesdays and
+                            Fridays</strong> and have a great time playing
+                        as a team!</p>
+                </section>
+            </main>
+
+            <footer class="footer">
+                <p>&copy; 2025 Maiwand. Made with ❤️</p>
+            </footer>
+        </div>
+
+        <script>
+            // Theme switching functionality
+            function loadTheme() {
+                const savedTheme = localStorage.getItem('theme') || 'kid';
+                const themeLink = document.getElementById('current-theme');
+
+                // All themes now use theme files
+                themeLink.href = `css/${savedTheme}-theme.css`;
+            }
+
+            function applyTheme(theme) {
+                const themeLink = document.getElementById('current-theme');
+
+                // All themes now use theme files
+                themeLink.href = `css/${theme}-theme.css`;
+            }
+
+            // Load theme on page load
+            window.onload = function () {
+                loadTheme();
+            };
+
+            // Listen for theme changes from other tabs
+            if (typeof BroadcastChannel !== 'undefined') {
+                const channel = new BroadcastChannel('theme-change');
+                channel.addEventListener('message', function (event) {
+                    applyTheme(event.data.theme);
+                });
+            }
+
+            // Listen for localStorage changes (fallback for older browsers)
+            window.addEventListener('storage', function (event) {
+                if (event.key === 'theme-change-trigger') {
+                    const savedTheme = localStorage.getItem('theme') || 'kid';
+                    applyTheme(savedTheme);
+                }
+            });
+        </script>
+    </body>
+
+</html>
