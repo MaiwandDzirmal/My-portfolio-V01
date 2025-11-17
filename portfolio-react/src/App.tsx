@@ -4,6 +4,7 @@ import AboutPage from "./pages/AboutPage";
 import ContactPage from "./pages/ContactPage";
 import GamesPage from "./pages/GamesPage";
 import HomePage from "./pages/HomePage";
+import MemoryMatchPage from "./pages/MemoryMatchPage";
 import ProjectsPage from "./pages/ProjectsPage";
 import SettingsPage from "./pages/SettingsPage";
 import SkillsPage from "./pages/SkillsPage";
@@ -17,6 +18,7 @@ function App() {
         <Route path="projects" element={<ProjectsPage />} />
         <Route path="skills" element={<SkillsPage />} />
         <Route path="games" element={<GamesPage />} />
+        <Route path="games/memory-match" element={<MemoryMatchPage />} />
         <Route path="contact" element={<ContactPage />} />
         <Route path="settings" element={<SettingsPage />} />
       </Route>
