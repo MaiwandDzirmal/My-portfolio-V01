@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import BeeSwarmScene from "../components/BeeSwarmScene";
 import MemoryMatch from "../components/MemoryMatch";
+import SnakeGame from "../components/SnakeGame";
 
 const HIGHLIGHTS = [
   "Collect pollen from colorful flower fields and convert it into honey",
@@ -61,6 +62,25 @@ export default function GamesPage() {
         </div>
         <div className="game-visual memory-match-wrapper">
           <MemoryMatch />
+        </div>
+      </section>
+
+      <section className="card game-feature">
+        <div className="game-visual memory-match-wrapper">
+          <SnakeGame />
+        </div>
+        <div className="game-copy">
+          <h2>Snake Game</h2>
+          <p>
+            Classic Snake game! Control your snake to eat food and grow longer.
+            Avoid hitting the walls or yourself. How long can you survive?
+          </p>
+          <ul className="game-highlights">
+            <li>Use Arrow Keys or WASD to control your snake</li>
+            <li>Eat food to grow longer and increase your score</li>
+            <li>Avoid walls and don&apos;t bite yourself!</li>
+            <li>Press Enter to start or reset the game</li>
+          </ul>
         </div>
       </section>
     </div>

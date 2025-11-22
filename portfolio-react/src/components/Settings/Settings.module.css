@@ -1,0 +1,120 @@
+.settingsPanel {
+  background: var(--card-bg, rgba(30, 30, 30, 0.95));
+  border: 2px solid var(--accent, #4caf50);
+  border-radius: 12px;
+  padding: 1.5rem;
+  display: grid;
+  gap: 1.25rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), 0 0 20px rgba(76, 175, 80, 0.2);
+  margin-bottom: 1rem;
+  backdrop-filter: blur(10px);
+}
+
+.title {
+  margin: 0;
+  font-size: 1.5rem;
+  color: var(--accent, #4caf50);
+  text-align: center;
+  text-shadow: 0 0 10px rgba(76, 175, 80, 0.5);
+}
+
+.settingGroup {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.settingGroup label {
+  display: grid;
+  gap: 0.5rem;
+  color: var(--text, #fff);
+}
+
+.settingGroup span {
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--text, #fff);
+}
+
+.settingGroup select,
+.settingGroup input[type="range"],
+.settingGroup input[type="color"] {
+  padding: 0.6rem;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 6px;
+  color: var(--text, #fff);
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+}
+
+.settingGroup select:focus,
+.settingGroup input[type="range"]:focus,
+.settingGroup input[type="color"]:focus {
+  outline: none;
+  border-color: var(--accent, #4caf50);
+  box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.2);
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.settingGroup input[type="range"] {
+  cursor: pointer;
+  accent-color: var(--accent, #4caf50);
+  height: 6px;
+}
+
+.settingGroup input[type="range"]:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.settingGroup input[type="color"] {
+  cursor: pointer;
+  height: 45px;
+  padding: 2px;
+  border-radius: 6px;
+}
+
+.actions {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.applyButton,
+.cancelButton {
+  flex: 1;
+  padding: 0.85rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.applyButton {
+  background: linear-gradient(135deg, #4caf50 0%, #45a049 100%);
+  color: white;
+  box-shadow: 0 4px 15px rgba(76, 175, 80, 0.4);
+}
+
+.applyButton:hover {
+  background: linear-gradient(135deg, #45a049 0%, #3d8b40 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(76, 175, 80, 0.5);
+}
+
+.applyButton:active {
+  transform: translateY(0);
+}
+
+.cancelButton {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text, #fff);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.cancelButton:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.3);
+}
