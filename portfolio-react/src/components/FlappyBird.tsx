@@ -42,7 +42,7 @@ const FlappyBird = () => {
   const [highScore, setHighScore] = useState(0);
   const [gameStarted, setGameStarted] = useState(false);
   const [gameOver, setGameOver] = useState(false);
-  const [pipeCounter, setPipeCounter] = useState(0);
+  const [, setPipeCounter] = useState(0);
   const gameContainerRef = useRef<HTMLDivElement>(null);
 
   // Load high score from localStorage
