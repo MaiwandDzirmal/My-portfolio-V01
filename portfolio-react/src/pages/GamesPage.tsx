@@ -2,6 +2,8 @@ import { Link } from "react-router-dom";
 import BeeSwarmScene from "../components/BeeSwarmScene";
 import MemoryMatch from "../components/MemoryMatch";
 import SnakeGame from "../components/SnakeGame";
+import TicTacToe from "../components/TicTacToe";
+import FlappyBird from "../components/FlappyBird";
 
 const HIGHLIGHTS = [
   "Collect pollen from colorful flower fields and convert it into honey",
@@ -80,6 +82,46 @@ export default function GamesPage() {
             <li>Eat food to grow longer and increase your score</li>
             <li>Avoid walls and don&apos;t bite yourself!</li>
             <li>Press Enter to start or reset the game</li>
+          </ul>
+        </div>
+      </section>
+
+      <section className="card game-feature">
+        <div className="game-copy">
+          <h2>Tic Tac Toe</h2>
+          <p>
+            Classic Tic Tac Toe game! Play against a friend and see who can get
+            three in a row first. Simple, fun, and timeless.
+          </p>
+          <ul className="game-highlights">
+            <li>Two-player game - take turns placing X and O</li>
+            <li>
+              Get three in a row to win (horizontal, vertical, or diagonal)
+            </li>
+            <li>Track your wins and draws across games</li>
+            <li>Click any empty cell to make your move</li>
+          </ul>
+        </div>
+        <div className="game-visual memory-match-wrapper">
+          <TicTacToe />
+        </div>
+      </section>
+
+      <section className="card game-feature">
+        <div className="game-visual memory-match-wrapper">
+          <FlappyBird />
+        </div>
+        <div className="game-copy">
+          <h2>Flappy Bird</h2>
+          <p>
+            Classic Flappy Bird game! Navigate through pipes by tapping to make
+            your bird flap. How far can you fly?
+          </p>
+          <ul className="game-highlights">
+            <li>Click or press Space/Enter/↑ to make the bird flap</li>
+            <li>Avoid hitting the pipes and the ground</li>
+            <li>Score points by passing through pipe gaps</li>
+            <li>Beat your high score and see how far you can go!</li>
           </ul>
         </div>
       </section>

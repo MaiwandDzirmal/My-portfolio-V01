@@ -1029,3 +1029,360 @@ body.theme-black .theme-menu select {
   transform: translateY(-1px);
   box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
 }
+
+/* Tic Tac Toe Styles */
+.tic-tac-toe-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 1rem;
+  gap: 1rem;
+  box-sizing: border-box;
+}
+
+.tic-tac-toe-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+}
+
+.tic-tac-toe-title {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--accent);
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.tic-tac-toe-stats {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.tic-tac-toe-stat {
+  display: grid;
+  gap: 0.2rem;
+  text-align: center;
+}
+
+.tic-tac-toe-winner {
+  text-align: center;
+  padding: 1rem;
+  background: var(--accent-soft);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--accent);
+  width: 100%;
+  max-width: 400px;
+}
+
+.tic-tac-toe-winner p {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--accent);
+}
+
+.tic-tac-toe-turn {
+  text-align: center;
+  padding: 0.75rem;
+  color: var(--text-muted);
+}
+
+.tic-tac-toe-turn p {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.tic-tac-toe-board {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5rem;
+  width: 100%;
+  max-width: 400px;
+  aspect-ratio: 1;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: var(--radius-md);
+  border: 2px solid var(--accent);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2), inset 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+.tic-tac-toe-cell {
+  background: rgba(255, 255, 255, 0.05);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+  font-weight: bold;
+  transition: all var(--ease);
+  aspect-ratio: 1;
+  color: var(--text);
+  position: relative;
+  overflow: hidden;
+}
+
+.tic-tac-toe-cell:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: var(--accent);
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.tic-tac-toe-cell:active:not(:disabled) {
+  transform: scale(0.95);
+}
+
+.tic-tac-toe-cell:disabled {
+  cursor: not-allowed;
+  opacity: 0.8;
+}
+
+.tic-tac-toe-cell.filled {
+  cursor: default;
+}
+
+.tic-tac-toe-cell.game-over {
+  opacity: 0.6;
+}
+
+.tic-tac-toe-x {
+  color: #ef4444;
+  text-shadow: 0 0 10px rgba(239, 68, 68, 0.5);
+  animation: fadeIn 0.2s ease;
+}
+
+.tic-tac-toe-o {
+  color: #3b82f6;
+  text-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
+  animation: fadeIn 0.2s ease;
+}
+
+.tic-tac-toe-actions {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 100%;
+  max-width: 400px;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@media (max-width: 480px) {
+  .tic-tac-toe-board {
+    max-width: 100%;
+    padding: 0.5rem;
+    gap: 0.25rem;
+  }
+
+  .tic-tac-toe-cell {
+    font-size: 2rem;
+  }
+
+  .tic-tac-toe-stats {
+    gap: 1rem;
+  }
+}
+
+/* Flappy Bird Styles */
+.flappy-bird-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 1rem;
+  gap: 1rem;
+  box-sizing: border-box;
+}
+
+.flappy-bird-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+}
+
+.flappy-bird-title {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--accent);
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.flappy-bird-stats {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.flappy-bird-stat {
+  display: grid;
+  gap: 0.2rem;
+  text-align: center;
+}
+
+.flappy-bird-game {
+  position: relative;
+  background: linear-gradient(to bottom, #87ceeb 0%, #87ceeb 70%, #98d8c8 100%);
+  border-radius: var(--radius-md);
+  border: 2px solid var(--accent);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2), inset 0 0 20px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  cursor: pointer;
+  user-select: none;
+  touch-action: none;
+}
+
+.flappy-bird-sky {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    to bottom,
+    #87ceeb 0%,
+    #87ceeb 60%,
+    #98d8c8 60%,
+    #98d8c8 100%
+  );
+  z-index: 0;
+}
+
+.flappy-bird-pipe {
+  position: absolute;
+  background: linear-gradient(to right, #228b22 0%, #32cd32 50%, #228b22 100%);
+  border: 2px solid #1a6b1a;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.3), 0 4px 8px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}
+
+.flappy-bird-pipe-top {
+  top: 0;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
+
+.flappy-bird-pipe-bottom {
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+.flappy-bird-bird {
+  position: absolute;
+  font-size: 30px;
+  z-index: 2;
+  transition: transform 0.1s ease-out;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+}
+
+.flappy-bird-ground {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 50px;
+  background: linear-gradient(to bottom, #8b7355 0%, #6b5d4f 100%);
+  border-top: 3px solid #5a4a3a;
+  z-index: 1;
+  box-shadow: inset 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.flappy-bird-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}
+
+.flappy-bird-game-over,
+.flappy-bird-start-screen {
+  background: var(--card-bg);
+  border: 2px solid var(--accent);
+  border-radius: var(--radius-md);
+  padding: 2rem;
+  text-align: center;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  max-width: 90%;
+}
+
+.flappy-bird-game-over h3,
+.flappy-bird-start-screen h3 {
+  margin: 0 0 1rem 0;
+  color: var(--accent);
+  font-size: 1.5rem;
+}
+
+.flappy-bird-game-over p,
+.flappy-bird-start-screen p {
+  margin: 0.5rem 0;
+  color: var(--text);
+}
+
+.flappy-bird-new-record {
+  color: var(--accent);
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+.flappy-bird-instructions {
+  text-align: center;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  width: 100%;
+  max-width: 400px;
+}
+
+.flappy-bird-instructions p {
+  margin: 0.5rem 0;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+@media (max-width: 480px) {
+  .flappy-bird-game {
+    width: 100% !important;
+    max-width: 100%;
+    aspect-ratio: 2/3;
+  }
+
+  .flappy-bird-bird {
+    font-size: 24px;
+  }
+
+  .flappy-bird-stats {
+    gap: 1rem;
+  }
+}
