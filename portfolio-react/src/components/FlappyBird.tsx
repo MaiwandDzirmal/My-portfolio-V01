@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useEffect, useCallback, useRef, Fragment } from "react";
 import { useGameLoop } from "../hooks/useGameLoop";
 
 interface Pipe {
@@ -18,13 +18,13 @@ interface Bird {
 
 const GAME_WIDTH = 400;
 const GAME_HEIGHT = 600;
-const BIRD_SIZE = 30;
+const BIRD_SIZE = 24; // Updated to match CSS bird height
 const BIRD_START_X = 80;
 const BIRD_START_Y = GAME_HEIGHT / 2;
 const GRAVITY = 0.5;
 const JUMP_STRENGTH = -8;
 const PIPE_WIDTH = 60;
-const PIPE_GAP = 180; // Increased gap for easier gameplay
+const PIPE_GAP = 150; // Minimum 300 pixel gap between pillars
 const PIPE_SPEED = 2;
 const PIPE_SPACING = 200;
 const GROUND_HEIGHT = 50;
@@ -42,7 +42,7 @@ const FlappyBird = () => {
   const [highScore, setHighScore] = useState(0);
   const [gameStarted, setGameStarted] = useState(false);
   const [gameOver, setGameOver] = useState(false);
-  const [pipeCounter, setPipeCounter] = useState(0);
+  const pipeCounterRef = useRef(0);
   const gameContainerRef = useRef<HTMLDivElement>(null);
 
   // Load high score from localStorage
@@ -73,7 +73,7 @@ const FlappyBird = () => {
     setScore(0);
     setGameStarted(false);
     setGameOver(false);
-    setPipeCounter(0);
+    pipeCounterRef.current = 0;
   }, []);
 
   // Generate new pipe
@@ -119,7 +119,7 @@ const FlappyBird = () => {
     setBird((prev) => ({ ...prev, velocity: JUMP_STRENGTH }));
     // Generate first pipe
     setPipes([generatePipe()]);
-    setPipeCounter(0);
+    pipeCounterRef.current = 0;
   }, [gameOver, initializeGame, generatePipe]);
 
   // Jump/flap
@@ -193,9 +193,13 @@ const FlappyBird = () => {
         };
       });
 
-      // Update pipes
+      // Update pipes and generate new ones
+      pipeCounterRef.current += PIPE_SPEED;
+      const shouldGenerateNew = pipeCounterRef.current >= PIPE_SPACING;
+
       setPipes((prevPipes) => {
-        const updatedPipes = prevPipes
+        // Update existing pipes
+        let updatedPipes = prevPipes
           .map((pipe) => {
             const newX = pipe.x - PIPE_SPEED;
             let newPassed = pipe.passed;
@@ -214,17 +218,13 @@ const FlappyBird = () => {
           })
           .filter((pipe) => pipe.x + PIPE_WIDTH > 0);
 
-        return updatedPipes;
-      });
-
-      // Generate new pipes
-      setPipeCounter((prev) => {
-        const newCounter = prev + PIPE_SPEED;
-        if (newCounter >= PIPE_SPACING) {
-          setPipes((prevPipes) => [...prevPipes, generatePipe()]);
-          return 0;
+        // Generate new pipe if needed
+        if (shouldGenerateNew) {
+          updatedPipes = [...updatedPipes, generatePipe()];
+          pipeCounterRef.current = 0;
         }
-        return newCounter;
+
+        return updatedPipes;
       });
     },
     delay: 16, // ~60 FPS
@@ -256,7 +256,7 @@ const FlappyBird = () => {
   return (
     <div className="flappy-bird-container">
       <div className="flappy-bird-header">
-        <h2 className="flappy-bird-title">🐦 Flappy Bird</h2>
+        <h2 className="flappy-bird-title">Flappy Bird</h2>
         <div className="flappy-bird-stats">
           <div className="flappy-bird-stat">
             <span className="stat-label">Score</span>
@@ -280,7 +280,7 @@ const FlappyBird = () => {
 
         {/* Pipes */}
         {pipes.map((pipe, index) => (
-          <div key={index}>
+          <Fragment key={index}>
             {/* Top pipe */}
             <div
               className="flappy-bird-pipe flappy-bird-pipe-top"
@@ -300,7 +300,7 @@ const FlappyBird = () => {
                 bottom: `${GROUND_HEIGHT}px`,
               }}
             />
-          </div>
+          </Fragment>
         ))}
 
         {/* Bird */}
@@ -312,7 +312,7 @@ const FlappyBird = () => {
             transform: `translate(-50%, -50%) rotate(${bird.rotation}deg)`,
           }}
         >
-          🐦
+          <div className="flappy-bird-bird-body" />
         </div>
 
         {/* Ground */}
@@ -345,17 +345,17 @@ const FlappyBird = () => {
         {!gameStarted && !gameOver && (
           <div className="flappy-bird-overlay">
             <div className="flappy-bird-start-screen">
-              <h3>🐦 Flappy Bird</h3>
-              <p>Click or press Space/Enter to start</p>
-              <p>Tap/Click to flap!</p>
+              <h3>Flappy Bird</h3>
+              <p>Click on the screen to start</p>
+              <p>Click to flap and avoid the pipes</p>
             </div>
           </div>
         )}
       </div>
 
       <div className="flappy-bird-instructions">
-        <p>Click or press Space/Enter/↑ to flap</p>
-        <p>Avoid the pipes and don&apos;t hit the ground!</p>
+        <p>Click on the screen to flap</p>
+        <p>Avoid hitting the pipes</p>
       </div>
     </div>
   );

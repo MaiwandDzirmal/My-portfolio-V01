@@ -85,6 +85,8 @@ type MemoryMatchProps = {
   gameMode?: "1player" | "2players";
   cardType?: "icons" | "numbers";
   gridSize?: "4x4" | "8x8" | "10x10";
+  player1Name?: string;
+  player2Name?: string;
 };
 
 // Grid size configurations
@@ -304,6 +306,8 @@ export default function MemoryMatch({
   gameMode,
   cardType = "numbers",
   gridSize = "4x4",
+  player1Name,
+  player2Name,
 }: MemoryMatchProps) {
   const navigate = useNavigate();
   const [cards, setCards] = useState<Card[]>(() => createNewGame(gridSize));
@@ -314,7 +318,12 @@ export default function MemoryMatch({
   const [gameStarted, setGameStarted] = useState(false);
   const [elapsedTime, setElapsedTime] = useState(0);
   const [progressMessage, setProgressMessage] = useState<string | null>(null);
+  const [currentPlayer, setCurrentPlayer] = useState<1 | 2>(1);
+  const [player1Score, setPlayer1Score] = useState(0);
+  const [player2Score, setPlayer2Score] = useState(0);
   const timerRef = useRef<number | undefined>(undefined);
+
+  const isTwoPlayerMode = gameMode === "2players";
 
   // Initialize game function
   const initializeGame = () => {
@@ -338,6 +347,9 @@ export default function MemoryMatch({
     setGameStarted(false);
     setElapsedTime(0);
     setProgressMessage(null);
+    setCurrentPlayer(1);
+    setPlayer1Score(0);
+    setPlayer2Score(0);
 
     console.log("New game initialized with", newCards.length, "cards");
   };
@@ -383,6 +395,17 @@ export default function MemoryMatch({
           );
           setFlippedCards([]);
           setMoves((prev) => prev + 1);
+
+          // In 2-player mode, award point to current player and keep their turn
+          if (isTwoPlayerMode) {
+            if (currentPlayer === 1) {
+              setPlayer1Score((prev) => prev + 1);
+            } else {
+              setPlayer2Score((prev) => prev + 1);
+            }
+            // Player keeps turn after a match
+          }
+
           setIsChecking(false);
         }, 1000);
       } else {
@@ -397,11 +420,17 @@ export default function MemoryMatch({
           );
           setFlippedCards([]);
           setMoves((prev) => prev + 1);
+
+          // In 2-player mode, switch turns after no match
+          if (isTwoPlayerMode) {
+            setCurrentPlayer((prev) => (prev === 1 ? 2 : 1));
+          }
+
           setIsChecking(false);
         }, 1000);
       }
     }
-  }, [flippedCards, cards, isChecking]);
+  }, [flippedCards, cards, isChecking, isTwoPlayerMode, currentPlayer]);
 
   // Check for win condition and track progress
   useEffect(() => {
@@ -513,16 +542,43 @@ export default function MemoryMatch({
   return (
     <div className="memory-match-game" data-grid-size={gridSize}>
       <div className="memory-match-header">
-        <div className="memory-match-stats">
-          <div className="memory-match-stat">
-            <span className="stat-label">Moves</span>
-            <span className="stat-value">{moves}</span>
+        {isTwoPlayerMode ? (
+          <div className="memory-match-two-player-info">
+            <div className="player-info">
+              <div
+                className={`player-name ${currentPlayer === 1 ? "active" : ""}`}
+              >
+                {player1Name || "Player 1"}
+                {currentPlayer === 1 && (
+                  <span className="turn-indicator">← Your Turn</span>
+                )}
+              </div>
+              <div className="player-score">Score: {player1Score}</div>
+            </div>
+            <div className="player-info">
+              <div
+                className={`player-name ${currentPlayer === 2 ? "active" : ""}`}
+              >
+                {player2Name || "Player 2"}
+                {currentPlayer === 2 && (
+                  <span className="turn-indicator">← Your Turn</span>
+                )}
+              </div>
+              <div className="player-score">Score: {player2Score}</div>
+            </div>
           </div>
-          <div className="memory-match-stat">
-            <span className="stat-label">Time</span>
-            <span className="stat-value">{formatTime(elapsedTime)}</span>
+        ) : (
+          <div className="memory-match-stats">
+            <div className="memory-match-stat">
+              <span className="stat-label">Moves</span>
+              <span className="stat-value">{moves}</span>
+            </div>
+            <div className="memory-match-stat">
+              <span className="stat-label">Time</span>
+              <span className="stat-value">{formatTime(elapsedTime)}</span>
+            </div>
           </div>
-        </div>
+        )}
         <button
           className="cta primary"
           onClick={(e) => {
@@ -544,11 +600,39 @@ export default function MemoryMatch({
 
       {gameWon && (
         <div className="memory-match-win">
-          <h3>🎉 You Won!</h3>
-          <p>
-            Completed in {moves} {moves === 1 ? "move" : "moves"} in{" "}
-            {formatTime(elapsedTime)}
-          </p>
+          {isTwoPlayerMode ? (
+            <>
+              <h3>
+                {player1Score > player2Score
+                  ? `🎉 ${player1Name || "Player 1"} Wins!`
+                  : player2Score > player1Score
+                  ? `🎉 ${player2Name || "Player 2"} Wins!`
+                  : "🤝 It's a Tie!"}
+              </h3>
+              <div className="final-scores">
+                <p>
+                  <strong>{player1Name || "Player 1"}:</strong> {player1Score}{" "}
+                  pairs
+                </p>
+                <p>
+                  <strong>{player2Name || "Player 2"}:</strong> {player2Score}{" "}
+                  pairs
+                </p>
+                <p>
+                  Completed in {moves} {moves === 1 ? "move" : "moves"} in{" "}
+                  {formatTime(elapsedTime)}
+                </p>
+              </div>
+            </>
+          ) : (
+            <>
+              <h3>🎉 You Won!</h3>
+              <p>
+                Completed in {moves} {moves === 1 ? "move" : "moves"} in{" "}
+                {formatTime(elapsedTime)}
+              </p>
+            </>
+          )}
           {progressMessage && (
             <p className="progress-message">{progressMessage}</p>
           )}

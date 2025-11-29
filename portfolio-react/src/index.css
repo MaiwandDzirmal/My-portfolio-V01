@@ -663,6 +663,123 @@ body.theme-black .theme-menu select {
   gap: 1rem;
 }
 
+.memory-match-two-player-info {
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+  flex: 1;
+}
+
+.player-info {
+  display: grid;
+  gap: 0.5rem;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: var(--radius-sm);
+  border: 2px solid transparent;
+  transition: border var(--ease), background var(--ease);
+  min-width: 150px;
+}
+
+.player-info .player-name {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.player-info .player-name.active {
+  color: var(--accent);
+}
+
+.turn-indicator {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--accent);
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
+
+.player-info .player-name.active {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.player-score {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.player-names-selection {
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.player-input-group {
+  display: grid;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.player-input-group label {
+  font-weight: 600;
+  color: var(--text);
+  font-size: 1rem;
+}
+
+.player-input-group input {
+  padding: 0.75rem 1rem;
+  border: 2px solid var(--card-border);
+  border-radius: var(--radius-sm);
+  background: var(--card-bg);
+  color: var(--text);
+  font-size: 1rem;
+  font-weight: 500;
+  transition: border var(--ease), box-shadow var(--ease);
+}
+
+.player-input-group input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+.player-names-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+.memory-match-win .final-scores {
+  display: grid;
+  gap: 0.75rem;
+  margin: 1rem 0;
+}
+
+.memory-match-win .final-scores p {
+  font-size: 1.1rem;
+  margin: 0;
+}
+
+.memory-match-win .final-scores p strong {
+  color: var(--accent);
+  font-weight: 700;
+}
+
 .memory-match-stat {
   display: grid;
   gap: 0.2rem;
@@ -1226,10 +1343,11 @@ body.theme-black .theme-menu select {
 
 .flappy-bird-title {
   margin: 0;
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: var(--accent);
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  font-size: 2rem;
+  font-weight: 800;
+  color: #2a7a82;
+  text-shadow: 2px 2px 0 #1a5a62, 4px 4px 0 rgba(0, 0, 0, 0.1);
+  letter-spacing: 0.05em;
 }
 
 .flappy-bird-stats {
@@ -1247,10 +1365,10 @@ body.theme-black .theme-menu select {
 
 .flappy-bird-game {
   position: relative;
-  background: linear-gradient(to bottom, #87ceeb 0%, #87ceeb 70%, #98d8c8 100%);
+  background: linear-gradient(to bottom, #4ec0ca 0%, #87ceeb 100%);
   border-radius: var(--radius-md);
-  border: 2px solid var(--accent);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2), inset 0 0 20px rgba(0, 0, 0, 0.1);
+  border: 3px solid #2a7a82;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), inset 0 0 20px rgba(0, 0, 0, 0.1);
   overflow: hidden;
   cursor: pointer;
   user-select: none;
@@ -1265,39 +1383,97 @@ body.theme-black .theme-menu select {
   height: 100%;
   background: linear-gradient(
     to bottom,
-    #87ceeb 0%,
-    #87ceeb 60%,
-    #98d8c8 60%,
-    #98d8c8 100%
+    #4ec0ca 0%,
+    #87ceeb 70%,
+    #deb887 70%,
+    #deb887 100%
   );
   z-index: 0;
 }
 
 .flappy-bird-pipe {
   position: absolute;
-  background: linear-gradient(to right, #228b22 0%, #32cd32 50%, #228b22 100%);
-  border: 2px solid #1a6b1a;
-  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.3), 0 4px 8px rgba(0, 0, 0, 0.2);
+  background: #3a9d3a;
+  border-left: 3px solid #2d7a2d;
+  border-right: 3px solid #2d7a2d;
+  box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.2), 0 2px 4px rgba(0, 0, 0, 0.3);
   z-index: 1;
 }
 
 .flappy-bird-pipe-top {
   top: 0;
-  border-bottom-left-radius: 8px;
-  border-bottom-right-radius: 8px;
 }
 
 .flappy-bird-pipe-bottom {
-  border-top-left-radius: 8px;
-  border-top-right-radius: 8px;
+  bottom: 50px; /* Ground height */
+}
+
+.flappy-bird-pipe-cap {
+  position: absolute;
+  left: -3px;
+  width: calc(100% + 6px);
+  height: 30px;
+  background: #2d7a2d;
+  border-left: 3px solid #1f5a1f;
+  border-right: 3px solid #1f5a1f;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  z-index: 2;
+}
+
+.flappy-bird-pipe-cap-top {
+  bottom: -30px;
+  border-bottom-left-radius: 6px;
+  border-bottom-right-radius: 6px;
+  border-bottom: 3px solid #1f5a1f;
+}
+
+.flappy-bird-pipe-cap-bottom {
+  top: -30px;
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+  border-top: 3px solid #1f5a1f;
 }
 
 .flappy-bird-bird {
   position: absolute;
-  font-size: 30px;
   z-index: 2;
   transition: transform 0.1s ease-out;
-  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+  width: 34px;
+  height: 24px;
+}
+
+.flappy-bird-bird-body {
+  width: 100%;
+  height: 100%;
+  background: #ffd700;
+  border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+  border: 2px solid #ffa500;
+  box-shadow: inset -4px -2px 0 rgba(0, 0, 0, 0.2), 0 2px 4px rgba(0, 0, 0, 0.3),
+    -2px 0 0 #ffed4e inset;
+  position: relative;
+}
+
+.flappy-bird-bird-body::before {
+  content: "";
+  position: absolute;
+  top: 6px;
+  right: 8px;
+  width: 6px;
+  height: 6px;
+  background: #000;
+  border-radius: 50%;
+}
+
+.flappy-bird-bird-body::after {
+  content: "";
+  position: absolute;
+  top: 14px;
+  right: -2px;
+  width: 8px;
+  height: 4px;
+  background: #ff8c00;
+  border-radius: 0 50% 50% 0;
+  border: 1px solid #ff6600;
 }
 
 .flappy-bird-ground {
@@ -1306,10 +1482,17 @@ body.theme-black .theme-menu select {
   left: 0;
   width: 100%;
   height: 50px;
-  background: linear-gradient(to bottom, #8b7355 0%, #6b5d4f 100%);
-  border-top: 3px solid #5a4a3a;
+  background: #deb887;
+  background-image: repeating-linear-gradient(
+    90deg,
+    transparent,
+    transparent 20px,
+    rgba(139, 115, 85, 0.3) 20px,
+    rgba(139, 115, 85, 0.3) 22px
+  );
+  border-top: 4px solid #8b7355;
   z-index: 1;
-  box-shadow: inset 0 4px 8px rgba(0, 0, 0, 0.3);
+  box-shadow: inset 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .flappy-bird-overlay {
@@ -1327,32 +1510,36 @@ body.theme-black .theme-menu select {
 
 .flappy-bird-game-over,
 .flappy-bird-start-screen {
-  background: var(--card-bg);
-  border: 2px solid var(--accent);
-  border-radius: var(--radius-md);
+  background: rgba(255, 255, 255, 0.95);
+  border: 3px solid #2a7a82;
+  border-radius: 12px;
   padding: 2rem;
   text-align: center;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
   max-width: 90%;
 }
 
 .flappy-bird-game-over h3,
 .flappy-bird-start-screen h3 {
   margin: 0 0 1rem 0;
-  color: var(--accent);
-  font-size: 1.5rem;
+  color: #2a7a82;
+  font-size: 1.75rem;
+  font-weight: 800;
+  text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.1);
 }
 
 .flappy-bird-game-over p,
 .flappy-bird-start-screen p {
   margin: 0.5rem 0;
-  color: var(--text);
+  color: #333;
+  font-size: 1rem;
 }
 
 .flappy-bird-new-record {
-  color: var(--accent);
-  font-weight: 600;
+  color: #ff6b00;
+  font-weight: 700;
   font-size: 1.1rem;
+  text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.1);
 }
 
 .flappy-bird-instructions {

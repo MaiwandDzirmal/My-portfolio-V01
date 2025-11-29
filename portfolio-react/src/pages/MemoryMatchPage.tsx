@@ -10,6 +10,9 @@ export default function MemoryMatchPage() {
   const [gameMode, setGameMode] = useState<GameMode>(null);
   const [cardType, setCardType] = useState<CardType>(null);
   const [gridSize, setGridSize] = useState<GridSize>(null);
+  const [player1Name, setPlayer1Name] = useState("");
+  const [player2Name, setPlayer2Name] = useState("");
+  const [playerNamesSubmitted, setPlayerNamesSubmitted] = useState(false);
   const navigate = useNavigate();
 
   const handleModeSelect = (mode: "1player" | "2players") => {
@@ -101,6 +104,92 @@ export default function MemoryMatchPage() {
     );
   }
 
+  // For 2-player mode, collect player names before grid size
+  if (gameMode === "2players" && !playerNamesSubmitted) {
+    return (
+      <div className="page memory-match-page">
+        <section className="page-hero">
+          <h1>Memory Match Game</h1>
+          <p>Enter player names!</p>
+        </section>
+
+        <section className="card player-names-selection">
+          <div className="player-names-form">
+            <div className="player-input-group">
+              <label htmlFor="player1">Player 1 Name:</label>
+              <input
+                id="player1"
+                type="text"
+                value={player1Name}
+                onChange={(e) => setPlayer1Name(e.target.value)}
+                onKeyDown={(e) => {
+                  // Prevent any form submission on Enter
+                  if (e.key === "Enter") {
+                    e.preventDefault();
+                    // Just focus on player2 input, don't submit
+                    document.getElementById("player2")?.focus();
+                  }
+                }}
+                placeholder="Enter Player 1 name"
+                maxLength={20}
+                autoFocus
+              />
+            </div>
+            <div className="player-input-group">
+              <label htmlFor="player2">Player 2 Name:</label>
+              <input
+                id="player2"
+                type="text"
+                value={player2Name}
+                onChange={(e) => setPlayer2Name(e.target.value)}
+                onKeyDown={(e) => {
+                  // Prevent any form submission on Enter - only button can submit
+                  if (e.key === "Enter") {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    // Don't do anything, just prevent default
+                  }
+                }}
+                placeholder="Enter Player 2 name"
+                maxLength={20}
+              />
+            </div>
+            <div className="player-names-actions">
+              <button
+                type="button"
+                className="cta primary"
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  // Only proceed if both names are filled
+                  if (player1Name.trim() && player2Name.trim()) {
+                    setPlayerNamesSubmitted(true);
+                    handleCardTypeSelect(cardType || "numbers");
+                  }
+                }}
+                disabled={!player1Name.trim() || !player2Name.trim()}
+              >
+                Continue
+              </button>
+              <button
+                type="button"
+                className="cta tertiary"
+                onClick={() => {
+                  setGameMode(null);
+                  setPlayer1Name("");
+                  setPlayer2Name("");
+                  setPlayerNamesSubmitted(false);
+                }}
+              >
+                Back
+              </button>
+            </div>
+          </div>
+        </section>
+      </div>
+    );
+  }
+
   if (gridSize === null) {
     return (
       <div className="page memory-match-page">
@@ -135,7 +224,14 @@ export default function MemoryMatchPage() {
           </div>
           <button
             className="cta tertiary"
-            onClick={() => setCardType(null)}
+            onClick={() => {
+              setCardType(null);
+              if (gameMode === "2players") {
+                setPlayer1Name("");
+                setPlayer2Name("");
+                setPlayerNamesSubmitted(false);
+              }
+            }}
             type="button"
           >
             Back
@@ -178,6 +274,9 @@ export default function MemoryMatchPage() {
               setGameMode(null);
               setCardType(null);
               setGridSize(null);
+              setPlayer1Name("");
+              setPlayer2Name("");
+              setPlayerNamesSubmitted(false);
             }}
             type="button"
           >
@@ -191,6 +290,8 @@ export default function MemoryMatchPage() {
           gameMode={gameMode}
           cardType={cardType}
           gridSize={gridSize}
+          player1Name={gameMode === "2players" ? player1Name : undefined}
+          player2Name={gameMode === "2players" ? player2Name : undefined}
         />
       </section>
     </div>
