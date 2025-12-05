@@ -1,30 +1,89 @@
 .cell {
   width: 100%;
   height: 100%;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: none;
   box-sizing: border-box;
   transition: all 0.1s ease;
   aspect-ratio: 1;
+  border-radius: 0;
 }
 
 .empty {
   background-color: rgba(255, 255, 255, 0.05);
+  border-radius: 0;
 }
 
 .snake-head {
   background: linear-gradient(135deg, #4caf50 0%, #45a049 100%);
-  border-radius: 50%;
+  border-radius: 0;
   box-shadow: 0 0 10px rgba(76, 175, 80, 0.6),
     inset 0 0 10px rgba(255, 255, 255, 0.2);
   border: 2px solid rgba(255, 255, 255, 0.3);
   animation: headGlow 1.5s ease-in-out infinite;
+  position: relative;
+}
+
+.snake-head::before {
+  content: "";
+  position: absolute;
+  top: 20%;
+  left: 25%;
+  width: 4px;
+  height: 4px;
+  background: #000;
+  border-radius: 50%;
+  box-shadow: 0 0 2px rgba(255, 255, 255, 0.8);
+}
+
+.snake-head::after {
+  content: "";
+  position: absolute;
+  top: 20%;
+  right: 25%;
+  width: 4px;
+  height: 4px;
+  background: #000;
+  border-radius: 50%;
+  box-shadow: 0 0 2px rgba(255, 255, 255, 0.8);
 }
 
 .snake-body {
   background: linear-gradient(135deg, #81c784 0%, #66bb6a 100%);
-  border-radius: 3px;
+  border-radius: 0;
   box-shadow: 0 0 5px rgba(129, 199, 132, 0.4);
   border: 1px solid rgba(255, 255, 255, 0.2);
+  position: relative;
+  overflow: hidden;
+}
+
+.snake-body::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(
+      circle at 30% 30%,
+      rgba(0, 0, 0, 0.1) 1px,
+      transparent 1px
+    ),
+    radial-gradient(circle at 70% 70%, rgba(0, 0, 0, 0.1) 1px, transparent 1px);
+  background-size: 8px 8px;
+  background-position: 0 0, 4px 4px;
+  opacity: 0.6;
+}
+
+.snake-body::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 60%;
+  height: 60%;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 2px;
 }
 
 .food {

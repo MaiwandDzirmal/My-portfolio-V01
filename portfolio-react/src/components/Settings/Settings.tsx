@@ -28,12 +28,45 @@ const Settings: React.FC<SettingsProps> = ({
     onSettingsChange({ fruitType: e.target.value as FruitType });
   };
 
-  const handleGameModeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const mode = e.target.value as GameMode;
+  const handleGameModeToggle = (mode: GameMode) => {
+    const currentModes = settings.gameMode;
+    const isActive = currentModes.includes(mode);
+
+    let newModes: GameMode[];
+    if (isActive) {
+      // Remove mode, but ensure at least one mode is selected
+      newModes = currentModes.filter((m) => m !== mode);
+      if (newModes.length === 0) {
+        newModes = ["normal"];
+      }
+    } else {
+      // Add mode
+      newModes = [...currentModes, mode];
+    }
+
+    // Update related settings based on active modes
+    const hasMultipleFood = newModes.includes("multiple-food");
+    const hasFastMode = newModes.includes("fast-mode");
+    const wasFastMode = currentModes.includes("fast-mode");
+
+    // Smart speed handling: only change speed if fast-mode state changed
+    let newSpeed = settings.gameSpeed;
+    if (mode === "fast-mode") {
+      if (hasFastMode && !wasFastMode) {
+        // Fast-mode just enabled
+        newSpeed = 80;
+      } else if (!hasFastMode && wasFastMode) {
+        // Fast-mode just disabled, reset to default if it was at fast speed
+        if (settings.gameSpeed <= 90) {
+          newSpeed = 150;
+        }
+      }
+    }
+
     onSettingsChange({
-      gameMode: mode,
-      foodCount: mode === "multiple-food" ? 3 : 1,
-      gameSpeed: mode === "fast-mode" ? 80 : 150,
+      gameMode: newModes,
+      foodCount: hasMultipleFood ? Math.max(settings.foodCount, 3) : 1,
+      gameSpeed: newSpeed,
     });
   };
 
@@ -75,13 +108,36 @@ const Settings: React.FC<SettingsProps> = ({
 
       <div className={styles.settingGroup}>
         <label>
-          <span>🎮 Game Mode:</span>
-          <select value={settings.gameMode} onChange={handleGameModeChange}>
-            <option value="normal">Normal</option>
-            <option value="no-walls">No Walls</option>
-            <option value="multiple-food">Multiple Food</option>
-            <option value="fast-mode">Fast Mode</option>
-          </select>
+          <span>🎮 Game Modes (Select Multiple):</span>
+          <div className={styles.gameModeButtons}>
+            {(
+              ["normal", "no-walls", "multiple-food", "fast-mode"] as GameMode[]
+            ).map((mode) => {
+              const isActive = settings.gameMode.includes(mode);
+              return (
+                <button
+                  key={mode}
+                  type="button"
+                  className={`${styles.gameModeButton} ${
+                    isActive ? styles.active : ""
+                  }`}
+                  onClick={() => handleGameModeToggle(mode)}
+                >
+                  {mode === "normal" && "🎯"}
+                  {mode === "no-walls" && "🌐"}
+                  {mode === "multiple-food" && "🍎"}
+                  {mode === "fast-mode" && "⚡"}{" "}
+                  {mode === "normal"
+                    ? "Normal"
+                    : mode === "no-walls"
+                    ? "No Walls"
+                    : mode === "multiple-food"
+                    ? "Multiple Food"
+                    : "Fast Mode"}
+                </button>
+              );
+            })}
+          </div>
         </label>
       </div>
 
@@ -94,7 +150,7 @@ const Settings: React.FC<SettingsProps> = ({
             max="5"
             value={settings.foodCount}
             onChange={handleFoodCountChange}
-            disabled={settings.gameMode !== "multiple-food"}
+            disabled={!settings.gameMode.includes("multiple-food")}
           />
         </label>
       </div>

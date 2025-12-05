@@ -33,7 +33,7 @@ export type GameMode = "normal" | "no-walls" | "multiple-food" | "fast-mode";
 
 export interface GameSettings {
   fruitType: FruitType;
-  gameMode: GameMode;
+  gameMode: GameMode[];
   foodCount: number;
   boardSize: { width: number; height: number };
   snakeColor: string;

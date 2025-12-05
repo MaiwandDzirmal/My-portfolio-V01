@@ -6,7 +6,7 @@ export const INITIAL_SNAKE_LENGTH = 3;
 
 export const DEFAULT_SETTINGS: GameSettings = {
   fruitType: "apple",
-  gameMode: "normal",
+  gameMode: ["normal"],
   foodCount: 1,
   boardSize: DEFAULT_BOARD_SIZE,
   snakeColor: "#4caf50",
@@ -54,8 +54,9 @@ export function generateFoodPositions(
     snake.map((segment) => `${segment.x},${segment.y}`)
   );
 
-  const foodCount =
-    settings.gameMode === "multiple-food" ? settings.foodCount : 1;
+  const foodCount = settings.gameMode.includes("multiple-food")
+    ? settings.foodCount
+    : 1;
 
   for (let i = 0; i < foodCount; i++) {
     let attempts = 0;
@@ -88,7 +89,7 @@ export function getNextHeadPosition(
   currentHead: Coordinate,
   direction: Direction,
   boardSize: { width: number; height: number },
-  gameMode: string
+  gameMode: string | string[]
 ): Coordinate {
   let newHead = { ...currentHead };
   switch (direction) {
@@ -107,7 +108,11 @@ export function getNextHeadPosition(
   }
 
   // Handle wrapping in no-walls mode
-  if (gameMode === "no-walls") {
+  if (
+    Array.isArray(gameMode)
+      ? gameMode.includes("no-walls")
+      : gameMode === "no-walls"
+  ) {
     if (newHead.x < 0) newHead.x = boardSize.width - 1;
     if (newHead.x >= boardSize.width) newHead.x = 0;
     if (newHead.y < 0) newHead.y = boardSize.height - 1;
@@ -124,10 +129,13 @@ export function checkCollision(
   newHead: Coordinate,
   snakeBody: Coordinate[],
   boardSize: { width: number; height: number },
-  gameMode: string
+  gameMode: string | string[]
 ): boolean {
   // Wall collision (skip if no-walls mode)
-  if (gameMode !== "no-walls") {
+  const isNoWalls = Array.isArray(gameMode)
+    ? gameMode.includes("no-walls")
+    : gameMode === "no-walls";
+  if (!isNoWalls) {
     if (
       newHead.x < 0 ||
       newHead.x >= boardSize.width ||

@@ -4,6 +4,7 @@ import MemoryMatch from "../components/MemoryMatch";
 import SnakeGame from "../components/SnakeGame";
 import TicTacToe from "../components/TicTacToe";
 import FlappyBird from "../components/FlappyBird";
+import Snake3DShowcase from "../components/Snake3DShowcase";
 
 const HIGHLIGHTS = [
   "Collect pollen from colorful flower fields and convert it into honey",
@@ -123,6 +124,25 @@ export default function GamesPage() {
             <li>Score points by passing through pipe gaps</li>
             <li>Beat your high score and see how far you can go!</li>
           </ul>
+        </div>
+      </section>
+
+      <section className="card game-feature">
+        <div className="game-copy">
+          <h2>3D Snake Showcase</h2>
+          <p>
+            Explore three different 3D snake styles created with Three.js! Each
+            snake has unique visual characteristics and materials.
+          </p>
+          <ul className="game-highlights">
+            <li>🟢 Classic Green - Traditional snake with natural colors</li>
+            <li>🌈 Colorful Rainbow - Vibrant gradient snake</li>
+            <li>✨ Metallic Silver - Shiny reflective snake</li>
+            <li>Interactive 3D model - Rotate and zoom with your mouse</li>
+          </ul>
+        </div>
+        <div className="game-visual" style={{ minHeight: "500px" }}>
+          <Snake3DShowcase />
         </div>
       </section>
     </div>
