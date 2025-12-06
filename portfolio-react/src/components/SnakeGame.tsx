@@ -1,4 +1,10 @@
-import React, { useEffect, useReducer, useCallback, useState } from "react";
+import React, {
+  useEffect,
+  useReducer,
+  useCallback,
+  useState,
+  useRef,
+} from "react";
 import Board from "./Board/Board";
 import ScoreDisplay from "./ScoreDisplay/ScoreDisplay";
 import GameStatus from "./GameStatus/GameStatus";
@@ -16,14 +22,26 @@ const SnakeGame: React.FC = () => {
     gameReducer,
     initializeGameState(DEFAULT_SETTINGS)
   );
-  const { snake, food, score, gameOver, gameStarted, boardSize, settings } =
-    state;
+  const {
+    snake,
+    food,
+    score,
+    gameOver,
+    gameStarted,
+    boardSize,
+    settings,
+    direction,
+  } = state;
   const [showSettings, setShowSettings] = useState(false);
   const [localSettings, setLocalSettings] = useState(settings);
+  const directionChangedRef = useRef(false);
 
   // Game loop with dynamic speed
   useGameLoop({
-    callback: () => dispatch({ type: "TICK" }),
+    callback: () => {
+      directionChangedRef.current = false; // Reset direction lock on each tick
+      dispatch({ type: "TICK" });
+    },
     delay: settings.gameSpeed,
     enabled: gameStarted && !gameOver,
   });
@@ -36,8 +54,8 @@ const SnakeGame: React.FC = () => {
         return;
       }
       if (gameOver && event.key === "Enter") {
+        directionChangedRef.current = false; // Reset direction lock
         dispatch({ type: "RESET_GAME" });
-        dispatch({ type: "START_GAME" });
         return;
       }
       if (event.key === "Escape" || event.key === "Escape") {
@@ -72,7 +90,8 @@ const SnakeGame: React.FC = () => {
           break;
       }
 
-      if (newDirection !== null) {
+      if (newDirection !== null && !directionChangedRef.current) {
+        directionChangedRef.current = true; // Lock further changes this tick
         dispatch({ type: "CHANGE_DIRECTION", payload: newDirection });
       }
     },
@@ -91,6 +110,7 @@ const SnakeGame: React.FC = () => {
   }, []);
 
   const handleResetGame = useCallback(() => {
+    directionChangedRef.current = false; // Reset direction lock
     dispatch({ type: "RESET_GAME" });
   }, []);
 
@@ -150,11 +170,13 @@ const SnakeGame: React.FC = () => {
       />
       <div className="snake-game-board-wrapper">
         <Board
+          key={`${score}-${gameStarted}-${gameOver}`}
           snake={snake}
           food={food}
           boardSize={boardSize}
           fruitType={settings.fruitType}
           snakeColor={settings.snakeColor}
+          direction={direction}
         />
       </div>
       <div className="snake-game-instructions">

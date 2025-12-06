@@ -89,6 +89,14 @@ const Settings: React.FC<SettingsProps> = ({
     onSettingsChange({ gameSpeed: Number(e.target.value) });
   };
 
+  const handleSoundToggle = (e: React.ChangeEvent<HTMLInputElement>) => {
+    onSettingsChange({ soundEnabled: e.target.checked });
+  };
+
+  const handleSoundVolumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    onSettingsChange({ soundVolume: Number(e.target.value) });
+  };
+
   return (
     <div className={styles.settingsPanel}>
       <h3 className={styles.title}>⚙️ Game Settings</h3>
@@ -191,6 +199,37 @@ const Settings: React.FC<SettingsProps> = ({
             step="10"
             value={settings.gameSpeed}
             onChange={handleGameSpeedChange}
+          />
+        </label>
+      </div>
+
+      <div className={styles.settingGroup}>
+        <label>
+          <span>🔊 Sound Effects:</span>
+          <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+            <input
+              type="checkbox"
+              checked={settings.soundEnabled}
+              onChange={handleSoundToggle}
+            />
+            <span>Enable Sounds</span>
+          </div>
+        </label>
+      </div>
+
+      <div className={styles.settingGroup}>
+        <label>
+          <span>
+            🔊 Sound Volume: {Math.round(settings.soundVolume * 100)}%
+          </span>
+          <input
+            type="range"
+            min="0"
+            max="1"
+            step="0.1"
+            value={settings.soundVolume}
+            onChange={handleSoundVolumeChange}
+            disabled={!settings.soundEnabled}
           />
         </label>
       </div>

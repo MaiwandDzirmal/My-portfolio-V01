@@ -1,5 +1,6 @@
 import { Direction } from "./types";
 import type { Coordinate, GameState, GameAction, GameSettings } from "./types";
+import { soundManager } from "./soundManager";
 
 export const DEFAULT_BOARD_SIZE = { width: 20, height: 20 };
 export const INITIAL_SNAKE_LENGTH = 3;
@@ -11,6 +12,8 @@ export const DEFAULT_SETTINGS: GameSettings = {
   boardSize: DEFAULT_BOARD_SIZE,
   snakeColor: "#4caf50",
   gameSpeed: 150,
+  soundEnabled: true,
+  soundVolume: 0.5,
 };
 
 /**
@@ -47,16 +50,26 @@ export function initializeGameState(
  */
 export function generateFoodPositions(
   snake: Coordinate[],
-  settings: GameSettings
+  settings: GameSettings,
+  count?: number,
+  existingFood: Coordinate[] = []
 ): Coordinate[] {
   const foods: Coordinate[] = [];
   const occupiedCells = new Set(
     snake.map((segment) => `${segment.x},${segment.y}`)
   );
 
-  const foodCount = settings.gameMode.includes("multiple-food")
-    ? settings.foodCount
-    : 1;
+  // Also mark existing food positions as occupied
+  existingFood.forEach((f) => {
+    occupiedCells.add(`${f.x},${f.y}`);
+  });
+
+  const foodCount =
+    count !== undefined
+      ? count
+      : settings.gameMode.includes("multiple-food")
+      ? settings.foodCount
+      : 1;
 
   for (let i = 0; i < foodCount; i++) {
     let attempts = 0;
@@ -162,13 +175,24 @@ export function checkCollision(
 export function gameReducer(state: GameState, action: GameAction): GameState {
   switch (action.type) {
     case "START_GAME":
+      soundManager.setEnabled(state.settings.soundEnabled);
+      soundManager.setVolume(state.settings.soundVolume);
+      soundManager.play("start");
       return { ...state, gameStarted: true, gameOver: false };
     case "RESET_GAME":
       return initializeGameState(state.settings);
+    case "RESET_AND_START_GAME":
+      const resetState = initializeGameState(state.settings);
+      soundManager.setEnabled(resetState.settings.soundEnabled);
+      soundManager.setVolume(resetState.settings.soundVolume);
+      soundManager.play("start");
+      return { ...resetState, gameStarted: true, gameOver: false };
     case "GAME_OVER":
       return { ...state, gameOver: true, gameStarted: false };
     case "UPDATE_SETTINGS":
       const newSettings = { ...state.settings, ...action.payload };
+      soundManager.setEnabled(newSettings.soundEnabled);
+      soundManager.setVolume(newSettings.soundVolume);
       return {
         ...state,
         settings: newSettings,
@@ -210,6 +234,7 @@ export function gameReducer(state: GameState, action: GameAction): GameState {
           state.settings.gameMode
         )
       ) {
+        soundManager.play("gameOver");
         return { ...state, gameOver: true, gameStarted: false };
       }
 
@@ -225,11 +250,14 @@ export function gameReducer(state: GameState, action: GameAction): GameState {
       if (eatenFoodIndex !== -1) {
         newFood.splice(eatenFoodIndex, 1);
         newScore++;
+        soundManager.play("eat");
 
-        // Generate replacement food
+        // Generate 1 replacement food (pass existing food to avoid overlap)
         const replacementFoods = generateFoodPositions(
           newSnake,
-          state.settings
+          state.settings,
+          1,
+          newFood
         );
         newFood.push(...replacementFoods);
       } else {

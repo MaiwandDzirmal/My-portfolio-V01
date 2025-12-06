@@ -38,6 +38,8 @@ export interface GameSettings {
   boardSize: { width: number; height: number };
   snakeColor: string;
   gameSpeed: number;
+  soundEnabled: boolean;
+  soundVolume: number;
 }
 
 export interface GameState {
@@ -56,5 +58,6 @@ export type GameAction =
   | { type: "TICK" }
   | { type: "RESET_GAME" }
   | { type: "START_GAME" }
+  | { type: "RESET_AND_START_GAME" }
   | { type: "GAME_OVER" }
   | { type: "UPDATE_SETTINGS"; payload: Partial<GameSettings> };

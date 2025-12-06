@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "./Cell.module.css";
-import { CellType } from "../../utils/types";
+import { CellType, Direction } from "../../utils/types";
 import type { FruitType } from "../../utils/types";
 
 // Helper function to adjust color brightness
@@ -54,12 +54,18 @@ interface CellProps {
   type: CellType;
   fruitType?: FruitType;
   snakeColor?: string;
+  direction?: Direction;
+  isNearFood?: boolean;
+  style?: React.CSSProperties;
 }
 
 const Cell: React.FC<CellProps> = ({
   type,
   fruitType = "apple",
   snakeColor,
+  direction,
+  isNearFood = false,
+  style: externalStyle,
 }) => {
   const cellClasses = [styles.cell, styles[type]];
 
@@ -67,7 +73,7 @@ const Cell: React.FC<CellProps> = ({
     cellClasses.push(styles[`food-${fruitType}`]);
   }
 
-  const style: React.CSSProperties = {};
+  const style: React.CSSProperties = { ...externalStyle };
   if (
     (type === CellType.SNAKE_HEAD || type === CellType.SNAKE_BODY) &&
     snakeColor
@@ -85,7 +91,39 @@ const Cell: React.FC<CellProps> = ({
     }
   }
 
-  return <div className={cellClasses.join(" ")} style={style}></div>;
+  const tongueDirection = direction || Direction.RIGHT;
+  const directionClass =
+    type === CellType.SNAKE_HEAD
+      ? styles[`tongue-${tongueDirection.toLowerCase()}`]
+      : "";
+  const tongueClass = `${styles.snakeTongue} ${
+    styles[`tongue-${tongueDirection.toLowerCase()}`]
+  } ${isNearFood ? styles.tongueExtended : ""}`;
+  const headClass =
+    type === CellType.SNAKE_HEAD
+      ? `${cellClasses.join(" ")} ${
+          isNearFood ? styles.mouthOpen : ""
+        } ${directionClass}`
+      : cellClasses.join(" ");
+
+  return (
+    <div className={headClass} style={style}>
+      {type === CellType.SNAKE_HEAD && (
+        <>
+          <div className={styles.snakeCheekLeft}></div>
+          <div className={styles.snakeCheekRight}></div>
+          <div className={styles.snakeSmile}></div>
+          <div className={styles.eyeShineLeft}></div>
+          <div className={styles.eyeShineRight}></div>
+          <div className={styles.snakeMouth}></div>
+          <div className={tongueClass}>
+            <span></span>
+            <span></span>
+          </div>
+        </>
+      )}
+    </div>
+  );
 };
 
 export default Cell;

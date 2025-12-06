@@ -2,7 +2,7 @@ import React from "react";
 import styles from "./Board.module.css";
 import Cell from "../Cell/Cell";
 import { CellType } from "../../utils/types";
-import type { Coordinate, FruitType } from "../../utils/types";
+import type { Coordinate, FruitType, Direction } from "../../utils/types";
 
 interface BoardProps {
   snake: Coordinate[];
@@ -10,6 +10,7 @@ interface BoardProps {
   boardSize: { width: number; height: number };
   fruitType: FruitType;
   snakeColor: string;
+  direction: Direction;
 }
 
 const Board: React.FC<BoardProps> = ({
@@ -18,6 +19,7 @@ const Board: React.FC<BoardProps> = ({
   boardSize,
   fruitType,
   snakeColor,
+  direction,
 }) => {
   // Ensure boardSize is valid
   const width = Math.max(1, boardSize?.width || 20);
@@ -70,6 +72,22 @@ const Board: React.FC<BoardProps> = ({
     });
   }
 
+  // Calculate distance from head to nearest food
+  let isNearFood = false;
+  let nearestFoodDistance = Infinity;
+  if (snake && snake.length > 0 && snake[0] && food && food.length > 0) {
+    const head = snake[0];
+    food.forEach((f) => {
+      if (f && typeof f.y === "number" && typeof f.x === "number") {
+        const distance = Math.abs(head.x - f.x) + Math.abs(head.y - f.y);
+        if (distance < nearestFoodDistance) {
+          nearestFoodDistance = distance;
+        }
+      }
+    });
+    isNearFood = nearestFoodDistance <= 2;
+  }
+
   return (
     <div
       className={styles.board}
@@ -78,15 +96,24 @@ const Board: React.FC<BoardProps> = ({
         gridTemplateRows: `repeat(${height}, 1fr)`,
       }}
     >
-      {grid.map((row, y) =>
-        row.map((cellType, x) => (
-          <Cell
-            key={`${x}-${y}`}
-            type={cellType}
-            fruitType={fruitType}
-            snakeColor={snakeColor}
-          />
-        ))
+      {grid.flatMap((row, y) =>
+        row.map((cellType, x) => {
+          const isHead = cellType === CellType.SNAKE_HEAD;
+          return (
+            <Cell
+              key={`${x}-${y}`}
+              type={cellType}
+              fruitType={fruitType}
+              snakeColor={snakeColor}
+              direction={isHead ? direction : undefined}
+              isNearFood={isHead ? isNearFood : false}
+              style={{
+                gridRow: y + 1,
+                gridColumn: x + 1,
+              }}
+            />
+          );
+        })
       )}
     </div>
   );
